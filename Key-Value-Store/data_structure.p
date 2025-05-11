@@ -9,7 +9,7 @@ tff(kvs, type, kvs: $array($int,$int)).
 tff(get, type, get: ($array($int, $int) * $int) > $int).
 tff(get_definition, axiom,
     ![X:$int]:
-      get(kvs, X) = $ite($greatereq(X,0), $select(kvs, X), $uminus(1))).
+      get(kvs, X) = $let(result : $int, result := $select(kvs, X), result)).
 
 %-- Similarly, we define the put operation in terms
 %-- of the store operation of arrays. See "The Vampire and The FOOL" 2016
@@ -17,8 +17,8 @@ tff(get_definition, axiom,
 tff(put, type, put: ($array($int, $int) * $int * $int) > $array($int, $int)).
 tff(put_definition, axiom,
     ![X:$int, Y:$int]:
-      put(kvs, X, Y) = $ite($greatereq(X,0), $store(kvs, X, Y), kvs)).
+      put(kvs, X, Y) = $let(newkvs: $array($int, $int), newkvs := $store(kvs, X, Y), newkvs)).
 
 tff(basic_test, conjecture,
     ![X:$int, Y:$int]:
-       ($greatereq(X,0)) => ($select($store(kvs, X, Y), X) = Y)).
+       ($greatereq(X,0)) => (get(put(kvs, X, Y), X) = Y)).
