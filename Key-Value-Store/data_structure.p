@@ -1,24 +1,31 @@
 %-- The key-value store will be represented as an array
 %-- With keys being nonnegative integers, and values being integers
 %-- Null is represented as -1
-tff(kvs, type, kvs: $array($int,$int)).
+%-- This is no longer using FOOL logic, which I dont like, but oh well
+%-- but, I should be able to switch it back??? nothing here relies on its non-existence
+tff('KVS', type, 'KVS[Int,Int]': $tType).
 
-%-- We define the get operation in terms of the select   
-%-- operation of arrays. See "The Vampire and The FOOL" 2016
+tff(get, type, 'get': ('KVS[Int,Int]' * $int) > $int).
+tff(put, type, 'put': ('KVS[Int,Int]' * $int * $int) > 'KVS[Int,Int]').
+%-- tff(kvs, type, kvs: 'KVS[Int,Int]').
 
-tff(get, type, get: ($array($int, $int) * $int) > $int).
-tff(get_definition, axiom,
-    ![X:$int]:
-      get(kvs, X) = $let(result : $int, result := $select(kvs, X), result)).
 
-%-- Similarly, we define the put operation in terms
-%-- of the store operation of arrays. See "The Vampire and The FOOL" 2016
+%-- Heavily inspired from "The Vampire and the FOOL" 2016
+%-- TODO: Make these only work for nonnegative integers
+tff(read_over_write_one, axiom,
+    ![A:'KVS[Int,Int]', V:$int, I:$int, J:$int]:
+     (I = J) => 'get'('put'(A,I,V), J) = V).
 
-tff(put, type, put: ($array($int, $int) * $int * $int) > $array($int, $int)).
-tff(put_definition, axiom,
-    ![X:$int, Y:$int]:
-      put(kvs, X, Y) = $let(newkvs: $array($int, $int), newkvs := $store(kvs, X, Y), newkvs)).
+tff(read_over_write_two, axiom,
+    ![A:'KVS[Int,Int]', V:$int, I:$int, J:$int]:
+     (I != J) => 'get'('put'(A,I,V), J) = 'get'(A,J)).
 
-tff(basic_test, conjecture,
-    ![X:$int, Y:$int]:
-       ($greatereq(X,0)) => (get(put(kvs, X, Y), X) = Y)).
+tff(extensionality, axiom,
+    ![A:'KVS[Int,Int]', B:'KVS[Int,Int]', I:$int]:
+     'get'(A,I) = 'get'(B,I) => A = B).
+
+tff(basic_conj, conjecture,
+    ![A:'KVS[Int,Int]', V:$int, I:$int]: 
+      'get'('put'(A,I,V), I) = V).   
+
+
