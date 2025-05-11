@@ -12,6 +12,7 @@ tff(put, type, 'put': ('KVS[Int,Int]' * $int * $int) > 'KVS[Int,Int]').
 
 %-- Heavily inspired from "The Vampire and the FOOL" 2016
 %-- TODO: Make these only work for nonnegative integers
+%-- TODO: Make these use polymorphic theory of arrays (redefine axioms for get and put!!!)
 tff(read_over_write_one, axiom,
     ![A:'KVS[Int,Int]', V:$int, I:$int, J:$int]:
      (I = J) => 'get'('put'(A,I,V), J) = V).
