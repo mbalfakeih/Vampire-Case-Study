@@ -55,6 +55,9 @@ tff(contains_def_three,axiom,
 tff(removal_def,axiom,
     ! [A: $array($int,$int),I: $int] : ( get(remove(A,I),I) = $uminus(1) ) ).
 
+tff(remove_changes,axiom,
+    ! [A: $array($int,$int),I: $int] : ( remove(A,I) != A ) ).
+
 tff(read_over_remove,axiom,
     ! [A: $array($int,$int),I: $int,J: $int] :
       ( ( I != J )
