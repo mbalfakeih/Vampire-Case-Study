@@ -1,8 +1,10 @@
-%-- The key-value store will be represented as an array
+%-- Axioms defining a key-value store
+%-- The key-value store is represented as an array
 %-- With keys being integers, and values being nonnegative integers
 %-- Null is represented as -1
 %-- Heavy inspiration from examples/array.smt2 from https://bitbucket.org/peba123/smttotptp/src/master/
-%-- Axioms for the key-value store are heavily inspired from "The Vampire and the FOOL" 2016
+%-- Axioms are heavily inspired from "The Vampire and the FOOL" 2016
+
 tff(get,type,
     get: ( $array($int,$int) * $int ) > $int ).
 
@@ -34,10 +36,18 @@ tff(extensionality,axiom,
       ( ! [I: $int] : ( get(A,I) = get(B,I) )
      => ( A = B ) ) ).
 
-tff(contains_def,axiom,
+tff(contains_def_one,axiom,
     ! [A: $array($int,$int),V: $int] :
       ( contains(A,V)
     <=> ? [I: $int] : ( get(A,I) = V ) ) ).
+
+tff(contains_def_two,axiom,
+    ! [A: $array($int,$int), I:$int, V:$int] :
+     (contains(put(A,I,V),V))).
+
+tff(contains_def_three,axiom,
+    ![A:$array($int,$int), B:$array($int,$int)]:
+    ((![V:$int]: (contains(A,V) <=> contains(B,V))) => A = B)).
 
 %-- Brainstorming removal axioms
 %-- Getting a removed element just gives you -1 ig, this works over all keys, i.e, you can remove a removed value
@@ -46,6 +56,4 @@ tff(contains_def,axiom,
 %-- read_over_write_two with removal instead of put
 %-- If 2 arrays are equal and then you remove from one, they should no longer be equal????? No because equality is also defined over removed elements
 
-%--tff(contains_test,conjecture,
-%--    ! [A: $array($int,$int), I:$int, V:$int] :
-%--     (contains(put(A,I,V),V))).
+
