@@ -11,6 +11,7 @@ tff(get,type,
 tff(put,type,
     put: ( $array($int,$int) * $int * $int ) > $array($int,$int) ).
 
+%-- Removal at a specified index
 tff(remove,type,
     remove: ( $array($int,$int) * $int ) > $array($int,$int) ).
 
@@ -49,11 +50,18 @@ tff(contains_def_three,axiom,
     ![A:$array($int,$int), B:$array($int,$int)]:
     ((![V:$int]: (contains(A,V) <=> contains(B,V))) => A = B)).
 
+tff(removal_def,axiom,
+    ![A:$array($int,$int), I:$int] :
+    (get(remove(A,I),I) = $uminus(1))).
+
+tff(read_over_remove,axiom,
+    ![A:$array($int,$int), I:$int, J:$int] : 
+     ((I != J) => get(remove(A,I),J) = get(A,J))).
+
 %-- Brainstorming removal axioms
 %-- Getting a removed element just gives you -1 ig, this works over all keys, i.e, you can remove a removed value
 %-- You can put after removing and get that, essentially read_over_write_one with more steps
 %-- I want it that it is IMPOSSIBLE for you to prove something with a null element, which I think changing my initial axioms helped with
 %-- read_over_write_two with removal instead of put
-%-- If 2 arrays are equal and then you remove from one, they should no longer be equal????? No because equality is also defined over removed elements
-
+%-- If 2 arrays are equal and then you remove a valid element from one, they should no longer be equal
 
