@@ -3,17 +3,19 @@
 #And creates a little summary
 
 #Resetting
-mkdir -p results
-rm results/*
-> results_summary.out
+mkdir -p results/axioms
+find results/ -name "*.out" -type f -delete
 
-for i in *.p; do
+for i in $(find . -name "*.p"); do
+
+    f="${i:2:-2}"
+
     #Run vampire on each of the files and save their output to a separate directory
-    vampire --input_syntax tptp "$i" > results/"$i".out
-    if grep -q "SZS status Theorem" "results/$i.out";
+    vampire --input_syntax tptp "$f.p" > results/"$f".out
+    if grep -q "SZS status Theorem" "results/$f.out";
     then
-       echo "$i : Theorem Proven" 
+       echo "$f : Theorem Proven" 
     else
-       echo "$i : Theorem not Proven, see results/$i.out for more information"
+       echo "$f : Theorem not Proven, see results/$f.out for more information"
     fi
 done
