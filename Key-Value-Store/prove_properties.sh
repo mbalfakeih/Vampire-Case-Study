@@ -3,19 +3,16 @@
 #And creates a little summary
 
 #Resetting
-mkdir -p results/axioms
-find results/ -name "*.out" -type f -delete
+d=$(git rev-parse --show-toplevel)/Key-Value-Store
+mkdir -p "$d"/results/axioms
+find "$d"/results/ -name "*.out" -type f -delete
 
-for i in $(find . -name "*.p"); do
-
-    f="${i:2:-2}"
-
+for i in $(find "$d" -name "*.p"); do
+    f="${i//$d}"
+    f="${f:1:-2}"
     #Run vampire on each of the files and save their output to a separate directory
-    vampire --input_syntax tptp "$f.p" > results/"$f".out
-    if grep -q "SZS status Theorem" "results/$f.out";
-    then
-       echo "$f : Theorem Proven" 
-    else
-       echo "$f : Theorem not Proven, see results/$f.out for more information"
-    fi
+    #See https://vprover.github.io/usage.html
+    vampire --input_syntax tptp --mode casc -t 300 "$d/$f.p" > "$d/results/$f.out"
+    echo $(grep "SZS status" "$d/results/$f.out")
 done
+echo "For more information on individual results, check the results directory"
