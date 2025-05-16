@@ -1,64 +1,76 @@
+include('lists.ax').
 %-- Axioms defining a key-value store
-%-- The key-value store is represented as an array
-%-- With keys being integers, and values being nonnegative integers
-%-- Null is represented as -1
+%-- The key-value store is represented as an array.
+%-- The key-value store is of length n, with a hash function of (k modulo n)
+%-- In case of hash collisons, we use lists for separate chaining
+%-- Keys and values are both integers
+
+%-- Length of the key-value store
+tff(length,type,
+    n: $int ).
+
+%-- Key-Value store must be non-empty
+tff(length_pos,axiom,
+    $greater(n,0) ).
+
 %-- Heavy inspiration from examples/array.smt2 from https://bitbucket.org/peba123/smttotptp/src/master/
 %-- Axioms are heavily inspired from "The Vampire and the FOOL" 2016
 
+%-- Key-Value Store function declarations
+%-- This will either return a nil, or cons(pair_cons(K,V),nil)
 tff(get,type,
-    get: ( $array($int,$int) * $int ) > $int ).
+    get: ( $array($int,list) * $int ) > list ).
 
+%-- Does not allow for duplicate keys, these will be replaced
+%-- Second argument is the key, third is the value
 tff(put,type,
-    put: ( $array($int,$int) * $int * $int ) > $array($int,$int) ).
+    put: ( $array($int,list) * $int * $int ) > $array($int,list) ).
 
 %-- Removal at a specified index
 tff(remove,type,
-    remove: ( $array($int,$int) * $int ) > $array($int,$int) ).
+    remove: ( $array($int,list) * $int ) > $array($int,list) ).
 
 tff(contains,type,
-    contains: ( $array($int,$int) * $int ) > $o ).
+    contains: ( $array($int,list) * $int ) > $o ).
 
-%---∀ a:Array[Int, Int] k:Int v:Int ((v >= 0) -> (a[k] ← v)[k] = v)
-tff(read_over_write_one,axiom,
-    ! [A: $array($int,$int),K: $int,V: $int] :
-      ( $greatereq(V,0)
-     => ( get(put(A,K,V),K) = V ) ) ).
+tff(size,type,
+    size: $array($int,list) > $int ).
 
-%---∀ a:Array[Int, Int] i:Int j:Int e:Int ((i ≠ j) ⇒ ((a[i] ← e)[j] = a[j]))
-tff(read_over_write_two,axiom,
-    ! [A: $array($int,$int),I: $int,J: $int,E: $int] :
-      ( ( ( I != J )
-        & $greatereq(E,0) )
-     => ( get(put(A,I,E),J) = get(A,J) ) ) ).
+%-- Helper functions
+%-- This will return an entire chain in the key-value store
+tff(get_chain,type,
+    get_chain: ( $array($int,list) * $int ) > list ).
 
-%---∀ a:Array[Int, Int] b:Array[Int, Int] (∀ i:Int (a[i] = b[i]) ⇒ (a = b))
-tff(extensionality,axiom,
-    ! [A: $array($int,$int),B: $array($int,$int)] :
-      ( ! [I: $int] : ( get(A,I) = get(B,I) )
-     => ( A = B ) ) ).
+%-- Function definitions
+tff(get_chain_def,axiom,
+    ! [A: $array($int,list),K: $int] : ( get_chain(A,K) = $select(A,$remainder_e(K,n)) ) ).
 
-tff(contains_def_one,axiom,
-    ! [A: $array($int,$int),V: $int] :
-      ( contains(A,V)
-    <=> ? [I: $int] : ( get(A,I) = V ) ) ).
+tff(get_def,axiom,
+    ! [A: $array($int,list),K: $int] : ( get(A,K) = get_l(get_chain(A,K),K) ) ).
 
-tff(contains_def_two,axiom,
-    ! [A: $array($int,$int),I: $int,V: $int] : contains(put(A,I,V),V) ).
+tff(remove_def,axiom,
+    ! [A: $array($int,list),K: $int] : ( remove(A,K) = $store(A,$remainder_e(K,n),remove_l(get_chain(A,K),K)) ) ).
 
-tff(contains_def_three,axiom,
-    ! [A: $array($int,$int),B: $array($int,$int)] :
-      ( ! [V: $int] :
-          ( contains(A,V)
-        <=> contains(B,V) )
-     => ( A = B ) ) ).
+tff(put_def,axiom,
+    ! [A: $array($int,list),K: $int,V: $int] : ( put(A,K,V) = $store(remove(A,K),K,append(cons(pair_cons(K,V),nil),get_chain(remove(A,K),K))) ) ).
 
-tff(removal_def,axiom,
-    ! [A: $array($int,$int),I: $int] : ( get(remove(A,I),I) = $uminus(1) ) ).
+%-- Concrete key-value store
+tff(kvs,type,
+    kvs: $array($int,list) ).
 
-tff(remove_changes,axiom,
-    ! [A: $array($int,$int),I: $int] : ( ($greatereq(get(A,I),0)) => remove(A,I) != A ) ).
+tff(set_length,axiom,
+    n = 5 ).
 
-tff(read_over_remove,axiom,
-    ! [A: $array($int,$int),I: $int,J: $int] :
-      ( ( I != J )
-     => ( get(remove(A,I),J) = get(A,J) ) ) ).
+tff(init_kvs,axiom,
+    ! [I: $int] :
+      ( ( $greatereq(I,0)
+        & $less(I,n) )
+     => ( get_chain(kvs,I) = nil ) ) ).
+
+tff(get_chain_kvs,conjecture,
+get_chain(kvs,6) = get_chain(kvs,1)).
+
+
+%--tff(get_kvs,conjecture,
+%--    get(put(kvs,1,2),1) = cons(pair_cons(1,2),nil)).
+
