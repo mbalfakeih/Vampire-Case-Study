@@ -56,31 +56,38 @@ tff(append_def_two,axiom,
     ! [P: pair,K: list,L: list] : ( append(cons(P,K),L) = cons(P,append(K,L)) ) ).
 
 %----Remove
-tff(remove,type,
-    remove: (list * $int) > list).
+tff(remove_l,type,
+    remove_l: ( list * $int ) > list ).
 
 tff(remove_nil,axiom,
-    ! [I:$int]: remove(nil,I)=nil).
+    ! [I: $int] : ( remove_l(nil,I) = nil ) ).
 
 tff(remove_from_list,axiom,
-    ![L:list,I:$int] : ((L != nil) => remove(L,I) = $ite(get_left(head(L)) = I, tail(L), cons(head(L),remove(tail(L), I))))).
+    ! [L: list,I: $int] :
+      ( ( L != nil )
+     => ( remove_l(L,I) = $ite(get_left(head(L)) = I,tail(L),cons(head(L),remove_l(tail(L),I))) ) ) ).
 
 %----Get
-tff(get,type,
-    get : (list * $int) > list).
+tff(get_l,type,
+    get_l: ( list * $int ) > list ).
 
 tff(get_nil,axiom,
-   ! [I:$int]: get(nil,I)=nil).
+    ! [I: $int] : ( get_l(nil,I) = nil ) ).
 
 tff(get_from_list,axiom,
-    ![L:list,I:$int] : ((L != nil) => get(L,I) = $ite(get_left(head(L)) = I, cons(head(L),nil), get(tail(L), I)))).
-
+    ! [L: list,I: $int] :
+      ( ( L != nil )
+     => ( get_l(L,I) = $ite(get_left(head(L)) = I,cons(head(L),nil),get_l(tail(L),I)) ) ) ).
 
 %-- Basic tests
-tff(mk_list, type, mk_list : list).
-tff(a,axiom,mk_list=cons(pair_cons(1,2),nil)).
+tff(mk_list,type,
+    mk_list: list ).
+
+tff(a,axiom,
+    mk_list = cons(pair_cons(1,2),nil) ).
+
 %--tff(c,conjecture,head(mk_list)=pair_cons(1,2)).
-%--tff(d,conjecture,remove(mk_list,1)=nil).
-%--tff(e,conjecture,remove(mk_list,2)=mk_list).
+%--tff(d,conjecture,remove_l(mk_list,1)=nil).
+%--tff(e,conjecture,remove_l(mk_list,2)=mk_list).
 %--tff(f,conjecture,~in(1,mk_list)).
-%--tff(g,conjecture,get(mk_list,2)=nil).
+%--tff(g,conjecture,get_l(mk_list,2)=nil).

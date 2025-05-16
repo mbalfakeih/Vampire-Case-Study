@@ -12,10 +12,10 @@ tff(get_right,type,
     get_right: pair > $int ).
 
 tff(get_left_def,axiom,
-    ![X: $int,Y: $int] : ( get_left(pair_cons(X,Y)) = X ) ).
+    ! [X: $int,Y: $int] : ( get_left(pair_cons(X,Y)) = X ) ).
 
 tff(get_right_def,axiom,
-    ![X: $int,Y: $int] : ( get_right(pair_cons(X,Y)) = Y ) ).
+    ! [X: $int,Y: $int] : ( get_right(pair_cons(X,Y)) = Y ) ).
 
 %--tff(basic_test,conjecture,
 %--    ![X:$int] : (get_left(pair_cons(X,X)) = get_right(pair_cons(X,X)))).
