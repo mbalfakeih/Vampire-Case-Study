@@ -1,9 +1,4 @@
-tff(pair,type,
-    pair: $tType ).
-
-tff(pair_cons,type,
-    pair_cons: ( $int * $int ) > pair ).
-
+include('pairs.ax').
 %-- List definitions heavily inspired from: https://tptp.org/cgi-bin/SeeTPTP?Category=Problems&Domain=DAT&File=DAT081_1.p
 tff(list,type,
     list: $tType ).
@@ -14,15 +9,18 @@ tff(nil,type,
 tff(cons,type,
     cons: ( pair * list ) > list ).
 
-tff(head,type, head: (list) > pair).
-tff(tail,type, tail: (list) > list).
+tff(head,type,
+    head: list > pair ).
+
+tff(tail,type,
+    tail: list > list ).
 
 %----Selectors
 tff(l1,axiom,
-    ! [P: pair, L: list] : ( head(cons(P,L)) = P ) ).
+    ! [P: pair,L: list] : ( head(cons(P,L)) = P ) ).
 
 tff(l2,axiom,
-    ! [P: pair, L: list] : ( tail(cons(P,L)) = L ) ).
+    ! [P: pair,L: list] : ( tail(cons(P,L)) = L ) ).
 
 %----Constructors
 tff(l3,axiom,
@@ -31,7 +29,19 @@ tff(l3,axiom,
       | ( L = cons(head(L),tail(L)) ) ) ).
 
 tff(l4,axiom,
-    ! [P: pair, L: list] : ( cons(P,L) != nil ) ).
+    ! [P: pair,L: list] : ( cons(P,L) != nil ) ).
+
+%----Append
+tff(t_5,type,
+    append: ( list * list ) > list ).
+
+tff(l_6,axiom,
+    ! [L: list] : ( append(nil,L) = L ) ).
+
+tff(l_7,axiom,
+    ! [P: pair,K: list,L: list] : ( append(cons(P,K),L) = cons(P,append(K,L)) ) ).
+
+%----Remove
 
 %-- Try to instantiate a list and prove smth basic on that
 %--tff(mk_list, type, mk_list : list).
