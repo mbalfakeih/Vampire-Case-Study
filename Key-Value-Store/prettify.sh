@@ -2,5 +2,10 @@
 shopt -s nullglob
 for i in $(find . -name "*.p" -o -name "*.ax"); do
     tptp4X "$i" > "$i".pretty
-    mv "$i".pretty "$i"
+    if grep -q "ERROR" "$i".pretty;
+    then
+        echo "Error when running tptp4X on $i, please check $i.pretty"
+    else
+        mv "$i".pretty "$i"
+    fi
 done
