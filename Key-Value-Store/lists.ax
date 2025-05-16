@@ -1,0 +1,39 @@
+tff(pair,type,
+    pair: $tType ).
+
+tff(pair_cons,type,
+    pair_cons: ( $int * $int ) > pair ).
+
+%-- List definitions heavily inspired from: https://tptp.org/cgi-bin/SeeTPTP?Category=Problems&Domain=DAT&File=DAT081_1.p
+tff(list,type,
+    list: $tType ).
+
+tff(nil,type,
+    nil: list ).
+
+tff(cons,type,
+    cons: ( pair * list ) > list ).
+
+tff(head,type, head: (list) > pair).
+tff(tail,type, tail: (list) > list).
+
+%----Selectors
+tff(l1,axiom,
+    ! [P: pair, L: list] : ( head(cons(P,L)) = P ) ).
+
+tff(l2,axiom,
+    ! [P: pair, L: list] : ( tail(cons(P,L)) = L ) ).
+
+%----Constructors
+tff(l3,axiom,
+    ! [L: list] :
+      ( ( L = nil )
+      | ( L = cons(head(L),tail(L)) ) ) ).
+
+tff(l4,axiom,
+    ! [P: pair, L: list] : ( cons(P,L) != nil ) ).
+
+%-- Try to instantiate a list and prove smth basic on that
+%--tff(mk_list, type, mk_list : list).
+%--tff(a,axiom,mk_list=cons(pair_cons(1,2),nil)).
+%--tff(c,conjecture,head(mk_list)=pair_cons(1,2)).
