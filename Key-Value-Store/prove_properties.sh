@@ -4,7 +4,7 @@
 
 #Resetting
 d=$(git rev-parse --show-toplevel)/Key-Value-Store
-mkdir -p "$d"/results/axioms
+mkdir -p "$d"/results/theorems
 find "$d"/results/ -name "*.out" -type f -delete
 
 for i in $(find "$d" -name "*.p"); do

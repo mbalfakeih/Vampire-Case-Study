@@ -1,8 +1,9 @@
-include('lists.ax').
+%Note that includes are defined relative to the prove_properties.sh script
+include('axioms/lists.ax').
 %-- Axioms defining a key-value store
 %-- The key-value store is represented as an array.
 %-- The key-value store is of length n, with a hash function of (k modulo n)
-%-- In case of hash collisons, we use lists for separate chaining
+%-- In case of hash collisions, we use lists for separate chaining
 %-- Keys and values are both integers
 
 %-- Length of the key-value store
@@ -33,17 +34,13 @@ tff(remove,type,
 tff(contains,type,
     contains: ( $array($int,list) * $int ) > $o ).
 
-tff(size,type,
-    size: $array($int,list) > $int ).
-
 %-- Helper functions
 %-- This will return an entire chain in the key-value store
 tff(get_chain,type,
     get_chain: ( $array($int,list) * $int ) > list ).
 
 %-- Function definitions
-%-- These do not suffice to be able to prove properties of key-value stores, 
-%-- these exist to ensure none of the following axioms contradict the function defintions
+%-- These do not suffice to be able to prove most properties of key-value stores. 
 tff(get_chain_def,axiom,
     ! [A: $array($int,list),K: $int] : ( get_chain(A,K) = $select(A,$remainder_e(K,n)) ) ).
 
@@ -54,30 +51,27 @@ tff(remove_def,axiom,
     ! [A: $array($int,list),K: $int] : ( remove(A,K) = $store(A,$remainder_e(K,n),remove_l(get_chain(A,K),K)) ) ).
 
 tff(put_def,axiom,
-    ! [A: $array($int,list),K: $int,V: $int] : ( put(A,K,V) = $store(remove(A,K),K,append(cons(pair_cons(K,V),nil),get_chain(remove(A,K),K))) ) ).
+    ! [A: $array($int,list),K: $int,V: $int] : ( put(A,K,V) = $store(A,$remainder_e(K,n),append(cons(pair_cons(K,V),nil),get_chain(remove(A,K),K))) ) ).
 
 tff(contains_def,axiom,
-    ! [A: $array($int,list),V:$int] : ( contains(A,V) <=> (? [K: $int] : (get(A,K) = cons(pair_cons(K,V),nil)) ))).
+    ! [A: $array($int,list),V: $int] :
+      ( contains(A,V)
+    <=> ? [K: $int] : ( get(A,K) = cons(pair_cons(K,V),nil) ) ) ).
 
+%-- Axioms
+tff(read_over_write_one,axiom,
+    ! [A: $array($int,list),K: $int,V: $int] : ( get(put(A,K,V),K) = cons(pair_cons(K,V),nil) ) ).
 
+tff(read_over_write_two,axiom,
+    ! [A: $array($int,list),K: $int,L: $int,V: $int] :
+      ( ( K != L )
+     => ( get(put(A,K,V),L) = get(A,L) ) ) ).
 
-%-- Concrete key-value store
-tff(kvs,type,
-    kvs: $array($int,list) ).
+tff(extensionality,axiom,
+    ! [A: $array($int,list),B: $array($int,list)] :
+      ( ! [K: $int] : ( get(A,K) = get(B,K) )
+     => ( A = B ) ) ).
 
-tff(set_length,axiom,
-    n = 5 ).
-
-tff(init_kvs,axiom,
-    ! [I: $int] :
-      ( ( $greatereq(I,0)
-        & $less(I,n) )
-     => ( get_chain(kvs,I) = nil ) ) ).
-
-tff(get_chain_kvs,conjecture,
-get_chain(kvs,6) = get_chain(kvs,1)).
-
-
-%--tff(get_kvs,conjecture,
-%--    get(put(kvs,1,2),1) = cons(pair_cons(1,2),nil)).
-
+%--I swear this could have been proven before but now it seemingly can't be?
+%--tff(chain_two,conjecture,
+%--    ! [A: $array($int,list),K: $int,X: $int] : ( get_chain(A,$sum(K,$product(X,n))) = get_chain(A,K) ) ).

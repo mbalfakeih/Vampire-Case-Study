@@ -1,0 +1,20 @@
+%Note that includes are defined relative to the prove_properties.sh script
+include('axioms/key-value-store.ax').
+
+%-- Concrete key-value store
+tff(kvs,type,
+    kvs: $array($int,list) ).
+
+tff(set_length,axiom,
+    n = 5 ).
+
+tff(init_kvs,axiom,
+    ! [I: $int] :
+      ( ( $greatereq(I,0)
+        & $less(I,n) )
+     => ( get_chain(kvs,I) = nil ) ) ).
+
+%-- Can prove conjectures on a concrete instance, for example
+tff(get_kvs,conjecture,
+    get(put(kvs,1,2),1) = cons(pair_cons(1,2),nil) ).
+

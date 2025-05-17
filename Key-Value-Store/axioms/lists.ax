@@ -1,4 +1,5 @@
-include('pairs.ax').
+%Note that includes are defined relative to the prove_properties.sh script
+include('axioms/pairs.ax').
 %-- List definitions heavily inspired from: https://tptp.org/cgi-bin/SeeTPTP?Category=Problems&Domain=DAT&File=DAT081_1.p
 tff(list,type,
     list: $tType ).
@@ -45,6 +46,16 @@ tff(in_conv,axiom,
             ( ( L = cons(H,T) )
             & in(X,T) ) ) ) ).
 
+%----Length
+tff(length_l,type,
+    length_l: list > $int ).
+
+tff(length_l_def_nil,axiom,
+    length_l(nil) = 0 ).
+
+tff(length_l_def_cons,axiom,
+    ! [P: pair,L: list] : ( length_l(cons(P,L)) = $sum(1,length_l(L)) ) ).
+
 %----Append
 tff(append,type,
     append: ( list * list ) > list ).
@@ -79,15 +90,37 @@ tff(get_from_list,axiom,
       ( ( L != nil )
      => ( get_l(L,I) = $ite(get_left(head(L)) = I,cons(head(L),nil),get_l(tail(L),I)) ) ) ).
 
-%-- Basic tests
-tff(mk_list,type,
-    mk_list: list ).
+%----Vampire does not seem to be able to prove this
+%----My assumption is this is due to struggles with induction
+%----This was attempted with different induction schedules (induction and struct_induction)
+tff(get_result,axiom,
+    ! [L: list,I: $int] :
+      ( ( get_l(L,I) = nil )
+      | ? [P: pair] : ( get_l(L,I) = cons(P,nil) ) ) ).
 
-tff(a,axiom,
-    mk_list = cons(pair_cons(1,2),nil) ).
+%----This also can't be proven, I'm guessing due to the complexity of the get_l function
+%----But honestly I'm not sure how to simplify it without somehow having a none value for pair
+tff(get_key,axiom,
+    ! [L: list,I: $int] :
+      ( ( get_l(L,I) != nil )
+     => ( get_left(head(get_l(L,I))) = I ) ) ).
+
+%----Lemmas
+tff(get_result_length,lemma,
+    ! [L: list,I: $int] :
+      ( ( length_l(get_l(L,I)) = 0 )
+      | ( length_l(get_l(L,I)) = 1 ) ) ).
+
+%-- Basic tests
+%--tff(mk_list,type,
+%--    mk_list: list ).
+
+%--tff(a,axiom,
+%--    mk_list = cons(pair_cons(1,2),nil) ).
 
 %--tff(c,conjecture,head(mk_list)=pair_cons(1,2)).
 %--tff(d,conjecture,remove_l(mk_list,1)=nil).
 %--tff(e,conjecture,remove_l(mk_list,2)=mk_list).
 %--tff(f,conjecture,~in(1,mk_list)).
 %--tff(g,conjecture,get_l(mk_list,2)=nil).
+%--tff(h,conjecture,length_l(mk_list)=1).
