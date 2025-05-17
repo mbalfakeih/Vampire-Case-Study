@@ -9,5 +9,5 @@ Code was ran with Vampire 4.9 (commit 5ad494e78)
 
 ## Requirements
 To use the bash scripts provided, the following tools are required:
-- [Vampire](https://vprover.github.io/), symlinked to vampire, this is required for `prove\_properties.sh`
+- [Vampire](https://vprover.github.io/), symlinked to vampire, this is required for `prove_properties.sh`
 - [tptp4X](https://github.com/TPTPWorld/TPTP4X), symlinked to tptp4X, this is required for `prettify.sh`
