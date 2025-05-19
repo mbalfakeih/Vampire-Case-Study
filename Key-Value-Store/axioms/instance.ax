@@ -15,6 +15,8 @@ tff(init_kvs,axiom,
      => ( get_chain(kvs,I) = nil ) ) ).
 
 %-- Can prove conjectures on a concrete instance, for example
-tff(get_kvs,conjecture,
-    get(put(kvs,1,2),1) = cons(pair_cons(1,2),nil) ).
+%--tff(get_kvs,conjecture,
+%--    get(put(kvs,1,2),1) = cons(pair_cons(1,2),nil) ).
 
+tff(size_test,conjecture,
+   size_up_to_index(kvs,2) = 0).
