@@ -34,10 +34,17 @@ tff(remove,type,
 tff(contains,type,
     contains: ( $array($int,list) * $int ) > $o ).
 
+tff(size,type,
+    size: $array($int,list) > $int ).
+
 %-- Helper functions
 %-- This will return an entire chain in the key-value store
 tff(get_chain,type,
     get_chain: ( $array($int,list) * $int ) > list ).
+
+%-- This gives the size of the key-value store up to a certain index
+tff(size_up_to_index,type,
+    size_up_to_index: ( $array($int,list) * $int ) > $int ).
 
 %-- Function definitions
 %-- These do not suffice to be able to prove most properties of key-value stores. 
@@ -58,6 +65,18 @@ tff(contains_def,axiom,
       ( contains(A,V)
     <=> ? [K: $int] : ( get(A,K) = cons(pair_cons(K,V),nil) ) ) ).
 
+tff(size_up_to_index_zero,axiom,
+    ! [A: $array($int,list)] : ( size_up_to_index(A,0) = length_l(get_chain(A,0)) ) ).
+
+tff(size_up_to_index_nonzero,axiom,
+    ! [A: $array($int,list),I: $int] :
+      ( ( $greater(I,0)
+        & $less(I,n) )
+     => ( size_up_to_index(A,I) = $sum(length_l(get_chain(A,I)),size_up_to_index(A,$difference(I,1))) ) ) ).
+
+tff(size_def,axiom,
+    ! [A: $array($int,list)] : ( size(A) = size_up_to_index(A,n) ) ).
+
 %-- Axioms
 tff(read_over_write_one,axiom,
     ! [A: $array($int,list),K: $int,V: $int] : ( get(put(A,K,V),K) = cons(pair_cons(K,V),nil) ) ).
@@ -74,4 +93,4 @@ tff(extensionality,axiom,
 
 %--I swear this could have been proven before but now it seemingly can't be?
 %--tff(chain_two,conjecture,
-%--    ! [A: $array($int,list),K: $int,X: $int] : ( get_chain(A,$sum(K,$product(X,n))) = get_chain(A,K) ) ).
+%--! [A: $array($int,list),K: $int,X: $int] : ( get_chain(A,$sum(K,$product(X,n))) = get_chain(A,K) ) ).
