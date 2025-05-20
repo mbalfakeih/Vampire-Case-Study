@@ -4,8 +4,9 @@ include('axioms/lists.ax').
 %-- The key-value store is represented as an array.
 %-- The key-value store is of length n, with a hash function of (k modulo n)
 %-- In case of hash collisions, we use lists for separate chaining
-%-- Keys and values are both integers
-
+%-- Keys are nonnegative integers
+%-- Values are integers
+ 
 %-- Length of the key-value store
 tff(length,type,
     n: $int ).

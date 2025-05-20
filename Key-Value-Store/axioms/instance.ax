@@ -19,4 +19,4 @@ tff(init_kvs,axiom,
 %--    get(put(kvs,1,2),1) = cons(pair_cons(1,2),nil) ).
 
 tff(size_test,conjecture,
-   size_up_to_index(kvs,2) = 0).
+   size_up_to_index(kvs,4) = 0).
