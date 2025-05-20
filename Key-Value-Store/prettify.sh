@@ -1,6 +1,6 @@
 #!/bin/bash
 shopt -s nullglob
-for i in $(find . -name "*.p" -o -name "*.ax"); do
+for i in $(find . -name "*.p" -o -name "*.ax" -o -name ".imp"); do
     tptp4X "$i" > "$i".pretty
     if grep -q "ERROR" "$i".pretty;
     then
