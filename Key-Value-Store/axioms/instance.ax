@@ -18,5 +18,11 @@ tff(init_kvs,axiom,
 %--tff(get_kvs,conjecture,
 %--    get(put(kvs,1,2),1) = cons(pair_cons(1,2),nil) ).
 
-tff(size_test,conjecture,
-   size_up_to_index(kvs,4) = 0).
+%-- Going higher than this is not possible due to vampires limits with induction 
+%tff(size_test,conjecture,
+%   size_up_to_index(kvs,1) = 0).
+
+%-- Conjectures involving size cannot be proven due to its inductive definition
+%tff(add_to_size,conjecture,
+%   size(put(kvs,1,2)) = 1).
+
