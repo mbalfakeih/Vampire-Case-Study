@@ -14,6 +14,14 @@ tff(length,type,
 tff(length_pos,axiom,
     $greater(n,0) ).
 
+%-- Hash function
+
+tff(hash,type,
+   h: ($int) > $int).
+
+tff(hash_def,axiom,
+    ! [I: $int] : (h(I) = $remainder_e(I,n))).
+
 %-- Heavy inspiration from examples/array.smt2 from https://bitbucket.org/peba123/smttotptp/src/master/
 %-- Axioms are heavily inspired from "The Vampire and the FOOL" 2016
 
@@ -49,16 +57,16 @@ tff(size_up_to_index,type,
 %-- Function definitions
 %-- These do not suffice to be able to prove most properties of key-value stores. 
 tff(get_chain_def,axiom,
-    ! [A: $array($int,list),K: $int] : ( get_chain(A,K) = $select(A,$remainder_e(K,n)) ) ).
+    ! [A: $array($int,list),K: $int] : ( get_chain(A,K) = $select(A,h(K)) ) ).
 
 tff(get_def,axiom,
     ! [A: $array($int,list),K: $int] : ( get(A,K) = get_l(get_chain(A,K),K) ) ).
 
 tff(remove_def,axiom,
-    ! [A: $array($int,list),K: $int] : ( remove(A,K) = $store(A,$remainder_e(K,n),remove_l(get_chain(A,K),K)) ) ).
+    ! [A: $array($int,list),K: $int] : ( remove(A,K) = $store(A,h(K),remove_l(get_chain(A,K),K)) ) ).
 
 tff(put_def,axiom,
-    ! [A: $array($int,list),K: $int,V: $int] : ( put(A,K,V) = $store(A,$remainder_e(K,n),append(cons(pair_cons(K,V),nil),get_chain(remove(A,K),K))) ) ).
+    ! [A: $array($int,list),K: $int,V: $int] : ( put(A,K,V) = $store(A,h(K),append(cons(pair_cons(K,V),nil),get_chain(remove(A,K),K))) ) ).
 
 tff(contains_def,axiom,
     ! [A: $array($int,list),V: $int] :
@@ -75,7 +83,7 @@ tff(size_up_to_index_nonzero,axiom,
      => ( size_up_to_index(A,I) = $sum(length_l(get_chain(A,I)),size_up_to_index(A,$difference(I,1))) ) ) ).
 
 tff(size_def,axiom,
-    ! [A: $array($int,list)] : ( size(A) = size_up_to_index(A,n) ) ).
+    ! [A: $array($int,list)] : ( size(A) = size_up_to_index(A,$difference(n,1)) ) ).
 
 %-- Axioms
 tff(read_over_write_one,axiom,
