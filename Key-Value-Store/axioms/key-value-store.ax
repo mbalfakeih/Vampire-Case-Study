@@ -57,16 +57,16 @@ tff(size_up_to_index,type,
 %-- Function definitions
 %-- These do not suffice to be able to prove most properties of key-value stores. 
 tff(get_chain_def,axiom,
-    ! [A: $array($int,list),K: $int] : ( get_chain(A,K) = $select(A,h(K)) ) ).
+    ! [A: $array($int,list),K: $int] :  ($greatereq(K,0) => get_chain(A,K) = $select(A,h(K))  )).
 
 tff(get_def,axiom,
-    ! [A: $array($int,list),K: $int] : ( get(A,K) = get_l(get_chain(A,K),K) ) ).
+    ! [A: $array($int,list),K: $int] : ( ($greatereq(K,0)) => get(A,K) = get_l(get_chain(A,K),K) ) ).
 
 tff(remove_def,axiom,
-    ! [A: $array($int,list),K: $int] : ( remove(A,K) = $store(A,h(K),remove_l(get_chain(A,K),K)) ) ).
+    ! [A: $array($int,list),K: $int] : ( ($greatereq(K,0)) => remove(A,K) = $store(A,h(K),remove_l(get_chain(A,K),K)) ) ).
 
 tff(put_def,axiom,
-    ! [A: $array($int,list),K: $int,V: $int] : ( put(A,K,V) = $store(A,h(K),append(cons(pair_cons(K,V),nil),get_chain(remove(A,K),K))) ) ).
+    ! [A: $array($int,list),K: $int,V: $int] : ( ($greatereq(K,0)) => put(A,K,V) = $store(A,h(K),append(cons(pair_cons(K,V),nil),get_chain(remove(A,K),K))) ) ).
 
 tff(contains_def,axiom,
     ! [A: $array($int,list),V: $int] :
@@ -101,4 +101,4 @@ tff(extensionality,axiom,
 
 %--I swear this could have been proven before but now it seemingly can't be?
 %--tff(chain_two,conjecture,
-%--! [A: $array($int,list),K: $int,X: $int] : ( get_chain(A,$sum(K,$product(X,n))) = get_chain(A,K) ) ).
+%--! [A: $array($int,list),K: $int,X: $int] : ( $greatereq(K,0) => (get_chain(A,$sum(K,$product(X,n))) = get_chain(A,K) ) )).
