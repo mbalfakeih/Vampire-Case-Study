@@ -1,0 +1,8 @@
+include('../axioms/instance.ax').
+
+%-- This cannot be proven due to vampire's limits with induction 
+tff(size_test,conjecture,
+    ! [I: $int] :
+      ( ( $greatereq(I,0)
+        & $less(I,n) )
+     => ( size_up_to_index(kvs,I) = 0 ) ) ).

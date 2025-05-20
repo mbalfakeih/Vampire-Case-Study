@@ -1,0 +1,5 @@
+include('axioms/instance.ax').
+
+%-- Conjectures involving size cannot be proven due to its inductive definition
+tff(add_to_size,conjecture,
+    size(put(kvs,1,2)) = 1 ).
