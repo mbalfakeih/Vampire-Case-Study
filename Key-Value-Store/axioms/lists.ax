@@ -32,20 +32,6 @@ tff(list_constructors,axiom,
 tff(cons_requirement,axiom,
     ! [P: pair,L: list] : ( cons(P,L) != nil ) ).
 
-%----List membership
-tff(in,type,
-    in: ( $int * list ) > $o ).
-
-tff(in_conv,axiom,
-    ! [X: $int,L: list] :
-      ( in(X,L)
-    <=> ( ? [H: pair,T: list] :
-            ( ( L = cons(H,T) )
-            & ( X = get_right(H) ) )
-        | ? [H: pair,T: list] :
-            ( ( L = cons(H,T) )
-            & in(X,T) ) ) ) ).
-
 %----Length
 tff(length_l,type,
     length_l: list > $int ).
@@ -110,17 +96,3 @@ tff(get_result_length,lemma,
     ! [L: list,I: $int] :
       ( ( length_l(get_l(L,I)) = 0 )
       | ( length_l(get_l(L,I)) = 1 ) ) ).
-
-%-- Basic tests
-%--tff(mk_list,type,
-%--    mk_list: list ).
-
-%--tff(a,axiom,
-%--    mk_list = cons(pair_cons(1,2),nil) ).
-
-%--tff(c,conjecture,head(mk_list)=pair_cons(1,2)).
-%--tff(d,conjecture,remove_l(mk_list,1)=nil).
-%--tff(e,conjecture,remove_l(mk_list,2)=mk_list).
-%--tff(f,conjecture,~in(1,mk_list)).
-%--tff(g,conjecture,get_l(mk_list,2)=nil).
-%--tff(h,conjecture,length_l(mk_list)=1).
