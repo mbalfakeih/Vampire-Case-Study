@@ -30,14 +30,14 @@ tff(hash_def,axiom,
 tff(get,type,
     get: ( $array($int,list) * $int ) > list ).
 
+%-- Removal at a specified index
+tff(remove,type,
+    remove: ( $array($int,list) * $int ) > $array($int,list) ).
+
 %-- Does not allow for duplicate keys, these will be replaced
 %-- Second argument is the key, third is the value
 tff(put,type,
     put: ( $array($int,list) * $int * $int ) > $array($int,list) ).
-
-%-- Removal at a specified index
-tff(remove,type,
-    remove: ( $array($int,list) * $int ) > $array($int,list) ).
 
 tff(contains,type,
     contains: ( $array($int,list) * $int ) > $o ).
