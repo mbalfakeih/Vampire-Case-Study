@@ -1,5 +1,5 @@
 include('../axioms/instance.ax').
 
-%-- Going higher than this is not possible due to vampires limits with induction 
+%-- Vampire is able to prove this, but not that size(kvs) = 0?
 tff(size_test,conjecture,
-    size_up_to_index(kvs,4) = 0 ).
+    size_up_to_index(kvs,9) = 0 ).

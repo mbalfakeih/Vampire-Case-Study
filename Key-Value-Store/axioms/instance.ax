@@ -6,7 +6,7 @@ tff(kvs,type,
     kvs: $array($int,list) ).
 
 tff(set_length,axiom,
-    n = 5 ).
+    n = 10 ).
 
 tff(init_kvs,axiom,
     ! [I: $int] :
