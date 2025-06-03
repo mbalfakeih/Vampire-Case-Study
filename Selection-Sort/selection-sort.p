@@ -12,5 +12,8 @@ tff(selection_sort_list,axiom,
 %tff(test_conj,conjecture,
 %    selection_sort(cons(2,cons(1,nil))) = cons(1,cons(2,nil)) ).
 
-tff(test_conj,conjecture,
-    ! [L: list] : sorted(selection_sort(L)) ).
+tff(sorted,conjecture,
+    ! [L: list] : sorted(selection_sort(L))).
+
+%tff(permutation_equivalence,conjecture,
+%   ! [X : $int, Xs : list] : filter_eq(X,Xs) = filter_eq(X,selection_sort(Xs))).
