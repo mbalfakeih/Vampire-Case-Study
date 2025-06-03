@@ -1,0 +1,33 @@
+include('lists.ax').
+
+% Taken from https://easychair.org/publications/paper/qbDc
+
+tff(elem_le_list,type,
+    elem_le_list: ( $int * list ) > $o ).
+
+tff(elem_le_list_nil,axiom,
+    ! [X: $int] :
+      ( elem_le_list(X,nil)
+    <=> $true ) ).
+
+tff(elem_le_list_cons,axiom,
+    ! [X: $int,Y: $int,Ys: list] :
+      ( elem_le_list(X,cons(Y,Ys))
+    <=> ( $lesseq(X,Y)
+        & elem_le_list(X,Ys) ) ) ).
+
+tff(sorted,type,
+    sorted: list > $o ).
+
+tff(sorted_nil,axiom,
+    sorted(nil) = $true ).
+
+tff(sorted_cons,axiom,
+    ! [X: $int,Xs: list] :
+      ( sorted(cons(X,Xs))
+    <=> ( elem_le_list(X,Xs)
+        & sorted(Xs) ) ) ).
+
+%tff(test_conj,conjecture,
+%    ~ sorted(cons(5,cons(100,nil))) ).
+
