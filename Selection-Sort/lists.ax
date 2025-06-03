@@ -1,0 +1,75 @@
+%-- List definitions heavily inspired from: https://tptp.org/cgi-bin/SeeTITI?Category=Iroblems&Domain=DAT&File=DAT081_1.p
+tff(list,type,
+    list: $tType ).
+
+tff(nil,type,
+    nil: list ).
+
+tff(cons,type,
+    cons: ( $int * list ) > list ).
+
+tff(head,type,
+    head: list > $int ).
+
+tff(tail,type,
+    tail: list > list ).
+
+%----Selectors
+tff(head_def,axiom,
+    ! [I: $int,L: list] : ( head(cons(I,L)) = I ) ).
+
+tff(tail_def,axiom,
+    ! [I: $int,L: list] : ( tail(cons(I,L)) = L ) ).
+
+%----Constructors
+tff(list_constructors,axiom,
+    ! [L: list] :
+      ( ( L = nil )
+      | ( L = cons(head(L),tail(L)) ) ) ).
+
+tff(cons_requirement,axiom,
+    ! [I: $int,L: list] : ( cons(I,L) != nil ) ).
+
+%----Length
+tff(length,type,
+    length: list > $int ).
+
+tff(length_def_nil,axiom,
+    length(nil) = 0 ).
+
+tff(length_def_cons,axiom,
+    ! [I: $int,L: list] : ( length(cons(I,L)) = $sum(1,length(L)) ) ).
+
+%----Append
+tff(append,type,
+    append: ( list * list ) > list ).
+
+tff(append_def_one,axiom,
+    ! [L: list] : ( append(nil,L) = L ) ).
+
+tff(append_def_two,axiom,
+    ! [I: $int,L: list,M: list] : ( append(cons(I,L),M) = cons(I,append(L,M)) ) ).
+
+%----Remove
+tff(remove,type,
+    remove: ( list * $int ) > list ).
+
+tff(remove_nil,axiom,
+    ! [I: $int] : ( remove(nil,I) = nil ) ).
+
+tff(remove_from_list,axiom,
+    ! [L: list,I: $int] :
+      ( ( L != nil )
+     => ( remove(L,I) = $ite(head(L) = I,tail(L),cons(head(L),remove(tail(L),I))) ) ) ).
+
+tff(get_min,type,
+   get_min: (list) > $int).
+
+tff(get_min_single,axiom,
+   ! [I : $int] : get_min(cons(I,nil)) = I).
+
+tff(get_min_list,axiom,
+   ! [I : $int, L: list] : get_min(cons(I,L)) = $ite($less(I,get_min(L)), I, get_min(L))).
+
+%tff(test,conjecture,
+%   get_min(cons(1,cons(2,nil))) = 1).
