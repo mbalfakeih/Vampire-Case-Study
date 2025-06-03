@@ -1,7 +1,8 @@
 include('lists.ax').
 
-% Taken from https://easychair.org/publications/paper/qbDc
+%-- Taken from https://easychair.org/publications/paper/qbDc
 
+%-- Sortedness
 tff(elem_le_list,type,
     elem_le_list: ( $int * list ) > $o ).
 
@@ -27,6 +28,22 @@ tff(sorted_cons,axiom,
       ( sorted(cons(X,Xs))
     <=> ( elem_le_list(X,Xs)
         & sorted(Xs) ) ) ).
+
+%-- Permutation equivalence
+
+tff(filter_eq,type,
+    filter_eq: ( $int * list ) > list ).
+
+tff(filter_eq_nil,axiom,
+    ! [X: $int] : ( filter_eq(X,nil) = nil ) ).
+
+tff(filter_eq_cons,axiom,
+    ! [X: $int,Y: $int,Ys: list] :
+      ( filter_eq(X,cons(Y,Ys)) = $ite(X = Y,cons(Y,filter_eq(X,Ys)),filter_eq(X,Ys)) ) ).
+
+
+%tff(test_conj,conjecture,
+%   filter_eq(5,cons(5,cons(5,nil))) = cons(5,cons(5,nil))).
 
 %tff(test_conj,conjecture,
 %    ~ sorted(cons(5,cons(100,nil))) ).
