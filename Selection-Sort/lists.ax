@@ -63,13 +63,14 @@ tff(remove_from_list,axiom,
      => ( remove(L,I) = $ite(head(L) = I,tail(L),cons(head(L),remove(tail(L),I))) ) ) ).
 
 tff(get_min,type,
-   get_min: (list) > $int).
+    get_min: list > $int ).
 
 tff(get_min_single,axiom,
-   ! [I : $int] : get_min(cons(I,nil)) = I).
+    ! [I: $int] : ( get_min(cons(I,nil)) = I ) ).
 
 tff(get_min_list,axiom,
-   ! [I : $int, L: list] : get_min(cons(I,L)) = $ite($less(I,get_min(L)), I, get_min(L))).
+    ! [I: $int,L: list] :
+      ( get_min(cons(I,L)) = $ite($less(I,get_min(L)),I,get_min(L)) ) ).
 
 %tff(test,conjecture,
 %   get_min(cons(1,cons(2,nil))) = 1).
