@@ -1,6 +1,6 @@
 %Note that includes are defined relative to the prove_properties.sh script
 include('axioms/pairs.ax').
-%-- List definitions heavily inspired from: https://tptp.org/cgi-bin/SeeTPTP?Category=Problems&Domain=DAT&File=DAT081_1.p
+%-- List definitions heavily inspired from: https://tptp.org/cgi-bin/SeeTPTP?Category=Problems&Domain=DAT&File=DAT081_1.p 
 tff(list,type,
     list: $tType ).
 
