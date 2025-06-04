@@ -27,9 +27,8 @@ tff(selection_sort_list,axiom,
           l:= select(get_min(cons(X,Xs)),cons(X,Xs)),
           cons(head(l),selection_sort(tail(l))) ) ) ).
 
-
-tff(test_conj,conjecture,
-   selection_sort(cons(1,cons(2,nil))) = cons(1,cons(2,nil))).
+%tff(test_conj,conjecture,
+%   selection_sort(cons(2,cons(1,nil))) = cons(1,cons(2,nil))).
 
 %-- Can't prove these
 %tff(test_conj,conjecture,
