@@ -1,4 +1,4 @@
-%-- List definitions heavily inspired from: https://tptp.org/cgi-bin/SeeTITI?Category=Iroblems&Domain=DAT&File=DAT081_1.p
+%-- List definitions heavily inspired from: https://tptp.org/cgi-bin/SeeTPTP?Category=Problems&Domain=DAT&File=DAT081_1.p 
 tff(list,type,
     list: $tType ).
 
