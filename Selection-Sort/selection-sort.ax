@@ -1,5 +1,19 @@
 include('sortedness-and-permutations.ax').
 
+%-- Not to be confused with $select for arrays
+
+tff(select,type,
+    select: ( $int * list ) > list ).
+
+%-- This only works under the assumption that X is indeed in the list
+%-- Which makes me wonder if the nil axiom should even be there??? like, I don't call this recursively, at least not within select itself
+
+%tff(select_nil,axiom,
+%   ! [X : $int] : (select(X,nil) = nil)).
+
+tff(select_cons,axiom,
+    ! [X: $int,Y: $int,Ys: list] : ( select(X,cons(Y,Ys)) = cons(X,remove(cons(Y,Ys),X)) ) ).
+
 tff(selection_sort,type,
     selection_sort: list > list ).
 
@@ -7,8 +21,20 @@ tff(selection_sort_nil,axiom,
     selection_sort(nil) = nil ).
 
 tff(selection_sort_list,axiom,
-    ! [X: $int,L: list] : ( selection_sort(cons(X,L)) = cons(get_min(cons(X,L)),selection_sort(remove(cons(X,L),get_min(cons(X,L))))) ) ).
+    ! [X: $int,Xs: list] :
+      ( selection_sort(cons(X,Xs)) = $let(
+          l: list,
+          l:= select(get_min(cons(X,Xs)),cons(X,Xs)),
+          cons(head(l),selection_sort(tail(l))) ) ) ).
+
+
+tff(test_conj,conjecture,
+   selection_sort(cons(1,cons(2,nil))) = cons(1,cons(2,nil))).
+
+%-- Can't prove these
+%tff(test_conj,conjecture,
+%    selection_sort(cons(5,cons(2,cons(4,nil)))) = cons(2,cons(4,cons(5,nil))) ).
 
 %tff(test_conj,conjecture,
-%    selection_sort(cons(2,cons(1,nil))) = cons(5,cons(2,nil)) ).
+%   ! [L : list] : ( ($lesseq(length(L),2)) => sorted(selection_sort(L)))).
 
