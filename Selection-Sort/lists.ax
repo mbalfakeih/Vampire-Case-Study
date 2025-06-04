@@ -30,6 +30,20 @@ tff(list_constructors,axiom,
 tff(cons_requirement,axiom,
     ! [I: $int,L: list] : ( cons(I,L) != nil ) ).
 
+%----List membership
+tff(in,type,
+    in: ( $int * list ) > $o ).
+
+tff(in_conv,axiom,
+    ! [X: $int,L: list] :
+      ( in(X,L)
+    <=> ( ? [H: $int,T: list] :
+            ( ( L = cons(H,T) )
+            & ( X = H ) )
+        | ? [H: $int,T: list] :
+            ( ( L = cons(H,T) )
+            & in(X,T) ) ) ) ).
+
 %----Length
 tff(length,type,
     length: list > $int ).
