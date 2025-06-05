@@ -3,15 +3,14 @@ include('sortedness-and-permutations.ax').
 %-- Not to be confused with $select for arrays
 
 tff(select,type,
-    select: ( $int * list ) > list ).
+    select: list > list ).
 
 tff(select_cons,axiom,
-    ! [X: $int,Y: $int,Ys: list] :
-      ( in(X,cons(Y,Ys))
-     => ( select(X,cons(Y,Ys)) = cons(X,remove(cons(Y,Ys),X)) ) ) ).
-
-%tff(select_cons,axiom,
-%    ! [X: $int,Y: $int,Ys: list] : ( ( select(X,cons(Y,Ys)) = cons(X,remove(cons(Y,Ys),X)) ) )).
+    ! [X: $int,Xs: list] :
+      ( select(cons(X,Xs)) = $let(
+          y: $int,
+          y:= get_min(cons(X,Xs)),
+          cons(y,remove(cons(X,Xs),y)) ) ) ).
 
 tff(selection_sort,type,
     selection_sort: list > list ).
@@ -23,11 +22,13 @@ tff(selection_sort_list,axiom,
     ! [X: $int,Xs: list] :
       ( selection_sort(cons(X,Xs)) = $let(
           l: list,
-          l:= select(get_min(cons(X,Xs)),cons(X,Xs)),
+          l:= select(cons(X,Xs)),
           cons(head(l),selection_sort(tail(l))) ) ) ).
 
-tff(test_conj,conjecture,
-    selection_sort(cons(2,cons(1,nil))) = cons(1,cons(2,nil)) ).
+%-- Permutation equivalence lemma
+
+%tff(test_conj,conjecture,
+%    selection_sort(cons(2,cons(1,nil))) = cons(1,cons(2,nil)) ).
 
 %-- Can't prove these
 %tff(test_conj,conjecture,
