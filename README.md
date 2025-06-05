@@ -1,7 +1,7 @@
 # Vampire-Case-Study
 Code for CSE3000 Research Project at TU Delft.
 
-This is a case study researching the capabilities and limitations of Vampire in performing automated software verification. Sorting algorithms and a key-value store are/will be defined in TPTP, then conjectures are defined to see whether Vampire is able to prove them.
+This is a case study researching the capabilities and limitations of Vampire in performing automated software verification. Selection Sort and a key-value store are/will be defined in TPTP, then conjectures are defined to see whether Vampire is able to prove them.
 
 ## Requirements
 To use the bash scripts provided, the following tools are required:
@@ -11,6 +11,8 @@ To use the bash scripts provided, the following tools are required:
 This repository has only been tested on Linux (specifically Fedora), since Vampire is only really available for Linux, this is unlikely to change.
 
 Code was ran with Vampire 4.9 (commit 5ad494e78), and all theorems in `theorems` folders could be proven using `prove_properties.sh` within the time limit on a Lenovo Legion 5 15ARH05 (82B5).
+
+TPTP4X (commit 0f4c2d5074b8a) was used in the scripts.
 
 ## File Extensions
 - `.ax` refers to axioms
