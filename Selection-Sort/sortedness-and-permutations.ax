@@ -44,7 +44,5 @@ tff(filter_eq_cons,axiom,
 %tff(test_conj,conjecture,
 %   elem_le_list(1,cons(1,nil))).
 
-%-- This and it's negation can be proven, this is an issue
-%-- Once again, trying to output latex of this proof causes it to (seemingly) diverge
 %tff(test_conj,conjecture,
-%   filter_eq(0,cons(5,cons(5,nil))) = cons(5,cons(5,nil))).
+%   filter_eq(4,cons(5,cons(5,nil))) != cons(5,cons(5,nil))).
