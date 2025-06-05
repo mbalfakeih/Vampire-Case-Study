@@ -1,7 +1,7 @@
 include('../axioms/key-value-store.ax').
 
 tff(put_check,conjecture,
-    ! [A: $array($int,list),B: $array($int,list),K: $int,V: $int] :
+    ! [A: $array($int,list),B: $array($int,list),K: $int,V: $i] :
       ( ( put(A,K,V) = B )
      => ! [X: $int] :
           ( ( get(A,X) != nil )

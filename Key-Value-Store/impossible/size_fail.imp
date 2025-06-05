@@ -1,6 +1,6 @@
 include('../axioms/instance.ax').
 
-%-- This cannot be proven due to vampire's limits with induction 
+%-- This cannot be proven (I think?) due to vampire's limits with induction
 tff(size_test,conjecture,
     ! [I: $int] :
       ( ( $greatereq(I,0)

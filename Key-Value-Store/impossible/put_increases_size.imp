@@ -1,6 +1,6 @@
 include('../axioms/key-value-store.ax').
 
 tff(put_increases_size,conjecture,
-    ! [A: $array($int,list),K: $int,V: $int] :
+    ! [A: $array($int,list),K: $int,V: $i] :
       ( ( size(put(A,K,V)) = size(A) )
       | ( size(put(A,K,V)) = $sum(size(A),1) ) ) ).
