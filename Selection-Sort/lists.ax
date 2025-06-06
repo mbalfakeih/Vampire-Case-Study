@@ -84,10 +84,10 @@ tff(get_min_single,axiom,
 
 tff(get_min_list,axiom,
     ! [I: $int,L: list] :
-      ( ( ( L != nil )
-        & ( L != cons(I,nil) ) )
-     => ! [J: $int] :
-          ( get_min(cons(J,L)) = $ite($less(J,get_min(L)),J,get_min(L)) ) ) ).
+      ( ( L != nil )
+     => ( get_min(cons(I,L)) = $ite($less(I,get_min(L)),I,get_min(L)) ) ) ).
 
-%tff(test,conjecture,
-%   get_min(cons(1,cons(2,nil))) = 1).
+tff(test,lemma,
+    ! [L: list] :
+      ( ( L != nil )
+     => in(get_min(L),L) ) ).
