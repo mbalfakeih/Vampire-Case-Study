@@ -26,8 +26,11 @@ tff(selection_sort_list,axiom,
           cons(head(l),selection_sort(tail(l))) ) ) ).
 
 %-- Permutation equivalence lemma
-tff(perm_eq_lemma1,lemma,
+tff(perm_eq_lemma1,conjecture,
     ! [X: $int,Y: $int,Ys: list] : ( filter_eq(X,cons(Y,Ys)) = filter_eq(X,select(cons(Y,Ys))) ) ).
+
+%tff(test_conj,conjecture,
+%   ! [L : list] : (length(L) = length(selection_sort(L)))).   
 
 %tff(test_conj,conjecture,
 %    selection_sort(cons(2,cons(1,nil))) = cons(1,cons(2,nil)) ).
