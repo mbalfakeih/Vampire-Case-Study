@@ -15,6 +15,8 @@
 (assert (forall ((x Int)) (= (min (Cons x Nil)) (x))))
 (assert (forall ((x Int) (xs list)) (=> (not (= xs Nil)) (= (min (Cons x xs)) (ite (< x (min xs)) (x) (min xs)))))) 
 
+; remove
+
 
 ; (assert-not (= (min (Cons 1 (Cons 0 Nil))) 0))
 ; (assert-not (forall ((xs list)) (=> (not (= xs Nil)) (in (min xs) xs))))
@@ -29,4 +31,11 @@
              ((Cons z zs) (and (list_ge_elem zs z) (sorted zs))))))
 
 ; Permutation Equivalence
+(define-fun-rec filter_mset ((x a) (xs list)) (list a)
+  (match xs ((Nil Nil))
+            ((Cons y ys) (ite (= y x) (Cons y (filter_mset x ys)) (filter_mset x ys)))))
+
+;(declare-fun select (list) list)
+;(assert (forall (x Int) (xs List) (= (select (Cons x xs)) (Cons (min (Cons x xs))))))
+
 
