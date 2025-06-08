@@ -16,6 +16,9 @@
 (assert (forall ((x Int) (xs list)) (=> (not (= xs Nil)) (= (min (Cons x xs)) (ite (< x (min xs)) (x) (min xs)))))) 
 
 ; remove
+(declare-fun remove (Int list) list)
+(assert (forall ((x Int)) (= (remove x Nil) Nil)))
+(assert (forall ((x Int) (y Int ) (ys list)) (= (remove x (Cons y ys)) (ite (= x y) ys (Cons y (remove x ys))))))
 
 
 ; (assert-not (= (min (Cons 1 (Cons 0 Nil))) 0))
@@ -31,10 +34,11 @@
              ((Cons z zs) (and (list_ge_elem zs z) (sorted zs))))))
 
 ; Permutation Equivalence
-(define-fun-rec filter_mset ((x a) (xs list)) (list a)
-  (match xs ((Nil Nil))
-            ((Cons y ys) (ite (= y x) (Cons y (filter_mset x ys)) (filter_mset x ys)))))
+(define-fun-rec filter_mset ((x Int) (xs list)) list
+  (match xs ((Nil Nil)
+            ((Cons y ys) (ite (= y x) (Cons y (filter_mset x ys)) (filter_mset x ys))))))
 
+(assert-not (forall ((xs list)) (=> (not (= xs Nil)) (in (min xs) xs))))
 ;(declare-fun select (list) list)
 ;(assert (forall (x Int) (xs List) (= (select (Cons x xs)) (Cons (min (Cons x xs))))))
 
