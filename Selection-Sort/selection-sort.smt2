@@ -13,8 +13,6 @@
 (declare-fun tail (list) list)
 (assert (forall ((x Int) (xs list)) (= (tail (Cons x xs)) xs)))
 
-(assert-not (= (head (Cons 3 (Cons 2 (Cons 1 Nil)))) 3))
-
 ; in
 (define-fun-rec in ((x Int) (xs list)) Bool
    (match xs ((Nil false)
@@ -54,12 +52,15 @@
            ((Cons y ys) (let ((z (min (Cons y ys)))) (Cons z (remove z (Cons y ys))))))))
 
 ; selection-sort
-;(define-fun-rec selection-sort ((xs list)) list
-;(match xs ((Nil Nil)
-;            ((Cons y ys) (let ((l (select (Cons y ys)))))))))
+(define-fun-rec selection-sort ((xs list)) list
+(match xs ((Nil Nil)
+            ((Cons y ys) (let ((l (select' (Cons y ys)))) (Cons (head l) (selection-sort (tail l))))))))
+
+; (assert-not (= (selection-sort (Cons 2 (Cons 1 Nil))) (Cons 1 (Cons 2 Nil))))
 
 ; (assert-not (forall ((xs list)) (=> (not (= xs Nil)) (in (min xs) xs))))
 ; (assert-not (= (select' (Cons 3 (Cons 2 (Cons 1 Nil)))) (Cons 1 (Cons 3 (Cons 2 Nil)))))
 ; (assert-not (= (filter_mset 1 (Cons 3 (Cons 2 (Cons 1 Nil)))) (filter_mset 1 (select' (Cons 3 (Cons 2 (Cons 1 Nil)))))))
 ; (assert-not (forall ((x Int) (y Int) (ys list)) (= (filter_mset x (Cons y ys)) (filter_mset x (select' (Cons y ys))))))
+(assert-not (forall ((xs list)) (sorted (selection-sort xs))))
 
