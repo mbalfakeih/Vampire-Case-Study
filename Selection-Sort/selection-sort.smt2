@@ -5,6 +5,16 @@
 ; Lists
 (declare-datatype list ((Nil) (Cons (Cons_0 Int) (Cons_1 (list)))))
 
+; head
+(declare-fun head (list) Int)
+(assert (forall ((x Int) (xs list)) (= (head (Cons x xs)) x)))
+
+; tail
+(declare-fun tail (list) list)
+(assert (forall ((x Int) (xs list)) (= (tail (Cons x xs)) xs)))
+
+(assert-not (= (head (Cons 3 (Cons 2 (Cons 1 Nil)))) 3))
+
 ; in
 (define-fun-rec in ((x Int) (xs list)) Bool
    (match xs ((Nil false)
@@ -26,11 +36,11 @@
 
 ; Sortedness
 (define-fun-rec list_ge_elem ((xs (list)) (y Int)) Bool
-  (match xs (((Nil) true)
+  (match xs ((Nil true)
              ((Cons z zs) (and (not (< z y)) (list_ge_elem zs y))))))
 
 (define-fun-rec sorted ((xs (list))) Bool
-  (match xs (((Nil) true)
+  (match xs ((Nil true)
              ((Cons z zs) (and (list_ge_elem zs z) (sorted zs))))))
 
 ; Permutation Equivalence
@@ -41,10 +51,15 @@
 ; select
 (define-fun-rec select' ((xs list)) list
 (match xs ((Nil Nil)
-        ((Cons y ys) (let ((z (min (Cons y ys)))) (Cons z (remove z (Cons y ys))))))))
+           ((Cons y ys) (let ((z (min (Cons y ys)))) (Cons z (remove z (Cons y ys))))))))
+
+; selection-sort
+;(define-fun-rec selection-sort ((xs list)) list
+;(match xs ((Nil Nil)
+;            ((Cons y ys) (let ((l (select (Cons y ys)))))))))
 
 ; (assert-not (forall ((xs list)) (=> (not (= xs Nil)) (in (min xs) xs))))
 ; (assert-not (= (select' (Cons 3 (Cons 2 (Cons 1 Nil)))) (Cons 1 (Cons 3 (Cons 2 Nil)))))
 ; (assert-not (= (filter_mset 1 (Cons 3 (Cons 2 (Cons 1 Nil)))) (filter_mset 1 (select' (Cons 3 (Cons 2 (Cons 1 Nil)))))))
-(assert-not (forall ((x Int) (y Int) (ys list)) (= (filter_mset x (Cons y ys)) (filter_mset x (select' (Cons y ys))))))
+; (assert-not (forall ((x Int) (y Int) (ys list)) (= (filter_mset x (Cons y ys)) (filter_mset x (select' (Cons y ys))))))
 
