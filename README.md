@@ -14,6 +14,8 @@ Code was ran with Vampire 4.9 (commit 5ad494e78), and all theorems in `*theorems
 
 TPTP4X (commit 0f4c2d5074b8a) was used in the scripts.
 
+`impossible` folders contain theorems which I believe should follow from the axioms, but Vampire was unable to prove. If you disagree with this then feel free to (quite literally) prove me wrong.
+
 ## File Extensions
 - `.ax` refers to axioms
 - `.p` refers to theorems that (should) follow from the axioms
