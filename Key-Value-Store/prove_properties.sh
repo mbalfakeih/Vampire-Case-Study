@@ -4,18 +4,19 @@
 
 #Resetting
 d=$(git rev-parse --show-toplevel)/Key-Value-Store
-mkdir -p "$d"/results/theorems
+mkdir -p "$d"/results/CASCtheorems
+mkdir -p "$d"/results/Indtheorems
 mkdir -p "$d"/results/impossible
 find "$d"/results/ -name "*.out" -type f -delete
 
 run () {
-for i in $(find "$d" -name "*$1"); do
+for i in $(find "$d/$1" -name "*.p"); do
     f="${i//$d}"
-    f="${f:1:$2}"
+    f="${f:1:-2}"
     echo "Running on $f"
     #Run vampire on each of the files and save their output to a separate directory
     #See https://vprover.github.io/usage.html
-    vampire --input_syntax tptp --mode casc -t 300 --cores 0 "$d/$f$1" > "$d/results/$f.out"
+    vampire --input_syntax tptp $2 -t 300 --cores 0 "$d/$f.p" > "$d/results/$f.out"
     a=$(grep "SZS status" "$d/results/$f.out") 
     echo $a 
     if [[ $a == *"Theorem"* ]] then
@@ -24,7 +25,7 @@ for i in $(find "$d" -name "*$1"); do
     printf "\n"
 done
 }
-run ".p" "-2"
-# Uncomment the line below to also run it on impossible files
-# run ".imp" "-4"
+run "CASCtheorems" "--mode casc" 
+run "Indtheorems" "--mode portfolio -sched struct_induction"
+
 echo "For more information on individual results, check the results directory"
