@@ -10,11 +10,11 @@ To use the bash scripts provided, the following tools are required:
 
 This repository has only been tested on Linux (specifically Fedora), since Vampire is only really available for Linux, this is unlikely to change.
 
-Code was ran with Vampire 4.9 (commit 5ad494e78), and all theorems in `theorems` folders could be proven using `prove_properties.sh` within the time limit on a Lenovo Legion 5 15ARH05 (82B5).
+Code was ran with Vampire 4.9 (commit 5ad494e78), and all theorems in `*theorems` folders could be proven using `prove_properties.sh` within the time limit on a Lenovo Legion 5 15ARH05 (82B5).
 
 TPTP4X (commit 0f4c2d5074b8a) was used in the scripts.
 
 ## File Extensions
 - `.ax` refers to axioms
-- `.p` refers to theorems that follow from the axioms
-- `.imp` refers to theorems that we believe follow from the axioms, but Vampire is unable to prove. (If you believe this is not the case, then feel free to make a pull request that, quite literally, proves us wrong)
+- `.p` refers to theorems that (should) follow from the axioms
+
