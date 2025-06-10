@@ -20,7 +20,7 @@
 (assert (forall ((x Int)) (= (remove x Nil) Nil)))
 (assert (forall ((x Int) (y Int ) (ys list)) (= (remove x (Cons y ys)) (ite (= x y) ys (Cons y (remove x ys))))))
 
-
+; (assert-not (= (remove 1 (Cons 1 Nil)) Nil))
 ; (assert-not (= (min (Cons 1 (Cons 0 Nil))) 0))
 ; (assert-not (forall ((xs list)) (=> (not (= xs Nil)) (in (min xs) xs))))
 
@@ -38,8 +38,10 @@
   (match xs ((Nil Nil)
             ((Cons y ys) (ite (= y x) (Cons y (filter_mset x ys)) (filter_mset x ys))))))
 
-(assert-not (forall ((xs list)) (=> (not (= xs Nil)) (in (min xs) xs))))
-;(declare-fun select (list) list)
-;(assert (forall (x Int) (xs List) (= (select (Cons x xs)) (Cons (min (Cons x xs))))))
+(declare-fun select' (list) list)
+(assert (forall ((x Int) (xs list)) 
+(= (select' (Cons x xs)) (let ((y (min (Cons x xs)))) (Cons y (remove y (Cons x xs))))))) 
 
+
+(assert-not (= (select' (Cons 1 Nil)) (Cons 1 Nil)))
 
