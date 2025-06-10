@@ -6,9 +6,9 @@
 (declare-datatype list ((Nil) (Cons (Cons_0 Int) (Cons_1 (list)))))
 
 ; in
-(declare-fun in (Int list) Bool)
-(assert (forall ((x Int)) (not (in x (Nil)))))
-(assert (forall ((x Int) (y Int) (ys (list))) (= (in x (Cons y ys)) (or (= x y) (in x ys)))))
+(define-fun-rec in ((x Int) (xs list)) Bool
+   (match xs ((Nil false)
+              ((Cons y ys) (or (= x y) (in x ys))))))
 
 ; min
 (declare-fun min (list) Int)
@@ -16,35 +16,35 @@
 (assert (forall ((x Int) (xs list)) (=> (not (= xs Nil)) (= (min (Cons x xs)) (ite (< x (min xs)) (x) (min xs)))))) 
 
 ; remove
-(declare-fun remove (Int list) list)
-(assert (forall ((x Int)) (= (remove x Nil) Nil)))
-(assert (forall ((x Int) (y Int ) (ys list)) (= (remove x (Cons y ys)) (ite (= x y) ys (Cons y (remove x ys))))))
+(define-fun-rec remove ((x Int) (xs list)) list
+(match xs ((Nil Nil) 
+           ((Cons y ys) (ite (= x y) ys (Cons y (remove x ys)))))))
 
 ; (assert-not (= (remove 1 (Cons 1 Nil)) Nil))
 ; (assert-not (= (min (Cons 1 (Cons 0 Nil))) 0))
 ; (assert-not (forall ((xs list)) (=> (not (= xs Nil)) (in (min xs) xs))))
 
 ; Sortedness
-;(define-fun-rec list_ge_elem ((xs (list)) (y Int)) Bool
-;  (match xs (((Nil) true)
-;             ((Cons z zs) (and (not (< z y)) (list_ge_elem zs y))))))
+(define-fun-rec list_ge_elem ((xs (list)) (y Int)) Bool
+  (match xs (((Nil) true)
+             ((Cons z zs) (and (not (< z y)) (list_ge_elem zs y))))))
 
-;(define-fun-rec sorted ((xs (list))) Bool
-;  (match xs (((Nil) true)
-;             ((Cons z zs) (and (list_ge_elem zs z) (sorted zs))))))
+(define-fun-rec sorted ((xs (list))) Bool
+  (match xs (((Nil) true)
+             ((Cons z zs) (and (list_ge_elem zs z) (sorted zs))))))
 
 ; Permutation Equivalence
 (define-fun-rec filter_mset ((x Int) (xs list)) list
   (match xs ((Nil Nil)
             ((Cons y ys) (ite (= y x) (Cons y (filter_mset x ys)) (filter_mset x ys))))))
 
-(declare-fun select' (list) list)
-(assert (forall ((x Int) (xs list)) 
-(= (select' (Cons x xs)) (let ((y (min (Cons x xs)))) (Cons y (remove y (Cons x xs))))))) 
+; select
+(define-fun-rec select' ((xs list)) list
+(match xs ((Nil Nil)
+        ((Cons y ys) (let ((z (min (Cons y ys)))) (Cons z (remove z (Cons y ys))))))))
 
-(assert (forall ((xs list)) (=> (not (= xs Nil)) (in (min xs) xs))))
-;(assert-not (= (select' (Cons 3 (Cons 2 (Cons 1 Nil)))) (Cons 1 (Cons 3 (Cons 2 Nil)))))
-;(assert-not (forall ((x Int) (xs list)) (select' ())))
+; (assert-not (forall ((xs list)) (=> (not (= xs Nil)) (in (min xs) xs))))
+; (assert-not (= (select' (Cons 3 (Cons 2 (Cons 1 Nil)))) (Cons 1 (Cons 3 (Cons 2 Nil)))))
 ; (assert-not (= (filter_mset 1 (Cons 3 (Cons 2 (Cons 1 Nil)))) (filter_mset 1 (select' (Cons 3 (Cons 2 (Cons 1 Nil)))))))
 (assert-not (forall ((x Int) (y Int) (ys list)) (= (filter_mset x (Cons y ys)) (filter_mset x (select' (Cons y ys))))))
 
