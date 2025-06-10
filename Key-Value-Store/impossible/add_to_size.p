@@ -5,4 +5,4 @@ tff(a,type,
     a: $i ).
 
 tff(add_to_size,conjecture,
-    size(put(kvs,1,a)) = 1 ).
+    size(put(kvs,0,a)) = 1 ).
