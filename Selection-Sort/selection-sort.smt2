@@ -42,9 +42,9 @@
              ((Cons z zs) (and (list_ge_elem zs z) (sorted zs))))))
 
 ; Permutation Equivalence
-(define-fun-rec filter_mset ((x Int) (xs list)) list
+(define-fun-rec filter_eq ((x Int) (xs list)) list
   (match xs ((Nil Nil)
-            ((Cons y ys) (ite (= y x) (Cons y (filter_mset x ys)) (filter_mset x ys))))))
+            ((Cons y ys) (ite (= y x) (Cons y (filter_eq x ys)) (filter_eq x ys))))))
 
 ; select
 (define-fun-rec select' ((xs list)) list
@@ -60,7 +60,7 @@
 
 ; (assert-not (forall ((xs list)) (=> (not (= xs Nil)) (in (min xs) xs))))
 ; (assert-not (= (select' (Cons 3 (Cons 2 (Cons 1 Nil)))) (Cons 1 (Cons 3 (Cons 2 Nil)))))
-; (assert-not (= (filter_mset 1 (Cons 3 (Cons 2 (Cons 1 Nil)))) (filter_mset 1 (select' (Cons 3 (Cons 2 (Cons 1 Nil)))))))
-; (assert-not (forall ((x Int) (y Int) (ys list)) (= (filter_mset x (Cons y ys)) (filter_mset x (select' (Cons y ys))))))
+; (assert-not (= (filter_eq 1 (Cons 3 (Cons 2 (Cons 1 Nil)))) (filter_eq 1 (select' (Cons 3 (Cons 2 (Cons 1 Nil)))))))
+; (assert-not (forall ((x Int) (y Int) (ys list)) (= (filter_eq x (Cons y ys)) (filter_eq x (select' (Cons y ys))))))
 (assert-not (forall ((xs list)) (sorted (selection-sort xs))))
 
