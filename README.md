@@ -16,7 +16,7 @@ TPTP4X (commit 0f4c2d5074b8a) was used in the scripts.
 
 `impossible` folders contain theorems which I believe should follow from the axioms, but Vampire was unable to prove. If you disagree with this then feel free to (quite literally) prove me wrong.
 
-## File Extensions
+## File Extensions for TPTP files
 - `.ax` refers to axioms
 - `.p` refers to theorems that (should) follow from the axioms
 
