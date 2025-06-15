@@ -1,6 +1,6 @@
-; Unfortunately, there does not seem to be a way to include SMTLIB files in another files
-; So, we will end up with one giant file, let us begin
-
+; Attempted to prove sortedness and permutation equivalenc (last two conjectures)
+; with vampire --input_syntax smtlib2 --mode portfolio -sched struct_induction -t 60 selection-sort.smt2
+; Also used the schedules induction and struct_induction_tip, none of these worked.
 
 ; Lists
 (declare-datatype list ((Nil) (Cons (Cons_0 Int) (Cons_1 (list)))))
