@@ -87,8 +87,8 @@ tff(get_min_list,axiom,
       ( ( L != nil )
      => ( get_min(cons(I,L)) = $ite($less(I,get_min(L)),I,get_min(L)) ) ) ).
 
-tff(martintest,conjecture,
-   ! [X: $int, L : list] : ((L = cons(1,L)) => get_min(L) = X)).
+%tff(martintest,conjecture,
+%   ! [X: $int, L : list] : ((L = cons(1,L)) => get_min(L) = X)).
 
 %tff(get_min_test,conjecture,
 %   get_min(cons(1,nil)) = 1).

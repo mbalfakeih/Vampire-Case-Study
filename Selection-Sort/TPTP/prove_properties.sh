@@ -3,10 +3,9 @@
 #And creates a little summary
 
 #Resetting
-d=$(git rev-parse --show-toplevel)/Selection-Sort
+d=$(git rev-parse --show-toplevel)/Selection-Sort/TPTP
 mkdir -p "$d"/results/theorems
 find "$d"/results/ -name "*.out" -type f -delete
-
 for i in $(find "$d" -name "*.p"); do
     f="${i//$d}"
     f="${f:1:-2}"
