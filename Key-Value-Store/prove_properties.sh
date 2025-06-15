@@ -28,4 +28,7 @@ done
 run "CASCtheorems" "--mode casc" 
 run "Indtheorems" "--mode portfolio -sched struct_induction"
 
+# Uncomment the line below to try proving the "impossible" conjectures
+# run "impossible" "--mode casc"
+
 echo "For more information on individual results, check the results directory"
