@@ -3,7 +3,7 @@
 #And creates a little summary
 
 #Resetting
-d=$(git rev-parse --show-toplevel)/Key-Value-Store
+d=$(git rev-parse --show-toplevel)/Key-Value-Store/TPTP
 mkdir -p "$d"/results/CASCtheorems
 mkdir -p "$d"/results/Indtheorems
 mkdir -p "$d"/results/impossible
