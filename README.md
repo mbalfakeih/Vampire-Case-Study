@@ -8,9 +8,12 @@ To use the bash scripts provided, the following tools are required:
 - [Vampire](https://vprover.github.io/), symlinked to vampire, this is required for `prove_properties.sh`
 - [tptp4X](https://github.com/TPTPWorld/TPTP4X), symlinked to tptp4X, this is required for `prettify.sh`
 
+## Notes regarding Usage
 This repository has only been tested on Linux (specifically Fedora), since Vampire is only really available for Linux, this is unlikely to change.
 
 Code was ran with Vampire 4.9 (commit 5ad494e78), and all theorems in `*theorems` folders could be proven using `prove_properties.sh` within the time limit on a Lenovo Legion 5 15ARH05 (82B5).
+
+Note that the `prove_properties.sh` scripts need to be ran in the exact folder they're defined in, otherwise there may be issues with file paths.
 
 TPTP4X (commit 0f4c2d5074b8a) was used in the scripts.
 
