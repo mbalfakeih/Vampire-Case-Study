@@ -81,13 +81,13 @@ tff(contains_def,axiom,
     <=> ? [K: $int] : ( get(A,K) = pair_cons(K,V) ) ) ).
 
 tff(size_up_to_index_zero,axiom,
-    ! [A: $array($int,list)] : ( size_up_to_index(A,0) = length_l(get_chain(A,0)) ) ).
+    ! [A: $array($int,list)] : ( size_up_to_index(A,0) = length(get_chain(A,0)) ) ).
 
 tff(size_up_to_index_nonzero,axiom,
     ! [A: $array($int,list),I: $int] :
       ( ( $greater(I,0)
         & $less(I,n) )
-     => ( size_up_to_index(A,I) = $sum(length_l(get_chain(A,I)),size_up_to_index(A,$difference(I,1))) ) ) ).
+     => ( size_up_to_index(A,I) = $sum(length(get_chain(A,I)),size_up_to_index(A,$difference(I,1))) ) ) ).
 
 tff(size_def,axiom,
     ! [A: $array($int,list)] : ( size(A) = size_up_to_index(A,$difference(n,1)) ) ).

@@ -33,14 +33,14 @@ tff(cons_requirement,axiom,
     ! [P: pair,L: list] : ( cons(P,L) != nil ) ).
 
 %----Length
-tff(length_l,type,
-    length_l: list > $int ).
+tff(length,type,
+    length: list > $int ).
 
-tff(length_l_def_nil,axiom,
-    length_l(nil) = 0 ).
+tff(length_def_nil,axiom,
+    length(nil) = 0 ).
 
-tff(length_l_def_cons,axiom,
-    ! [P: pair,L: list] : ( length_l(cons(P,L)) = $sum(1,length_l(L)) ) ).
+tff(length_def_cons,axiom,
+    ! [P: pair,L: list] : ( length(cons(P,L)) = $sum(1,length(L)) ) ).
 
 %----Remove
 tff(remove_l,type,
