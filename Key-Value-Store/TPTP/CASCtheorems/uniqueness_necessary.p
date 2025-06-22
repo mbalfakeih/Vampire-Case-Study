@@ -1,9 +1,11 @@
 include('../axioms/key-value-store.ax').
 
+
 tff(contains_new_element,lemma,
     ! [A: $array($int,list),K: $int,V: $i] : contains(put(A,K,V),V) ).
 
-tff(uniqueness_three,conjecture,
+% Necessary condition for uniqueness
+tff(uniqueness_necessary,conjecture,
     ! [A: $array($int,list),K: $int,V: $i,W: $i] :
       ( ( $greatereq(K,0)
         & ~ contains(A,V)
