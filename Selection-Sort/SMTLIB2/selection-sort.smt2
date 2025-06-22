@@ -28,10 +28,6 @@
 (match xs ((Nil Nil) 
            ((Cons y ys) (ite (= x y) ys (Cons y (remove x ys)))))))
 
-; (assert-not (= (remove 1 (Cons 1 Nil)) Nil))
-; (assert-not (= (min (Cons 1 (Cons 0 Nil))) 0))
-; (assert-not (forall ((xs list)) (=> (not (= xs Nil)) (in (min xs) xs))))
-
 ; Sortedness
 (define-fun-rec list_ge_elem ((xs (list)) (y Int)) Bool
   (match xs ((Nil true)
@@ -56,11 +52,25 @@
 (match xs ((Nil Nil)
             ((Cons y ys) (let ((l (select' (Cons y ys)))) (Cons (head l) (selection-sort (tail l))))))))
 
-; (assert-not (= (selection-sort (Cons 2 (Cons 1 Nil))) (Cons 1 (Cons 2 Nil))))
 
-; (assert-not (forall ((xs list)) (=> (not (= xs Nil)) (in (min xs) xs))))
+; Minimum of a list is an element of that list, this could be proven
+(assert (forall ((xs list)) (=> (not (= xs Nil)) (in (min xs) xs))))
+
+; permutation equivalence lemma
+; (assert-not (forall ((x Int) (y Int) (ys list)) (= (filter_eq x (Cons y ys)) (filter_eq x (select' (Cons y ys))))))
+
+; permutation equivalence
+(assert-not (forall ((x Int) (xs list)) (= (filter_eq x xs) (filter_eq x (selection-sort xs)))))
+
+; sortedness lemma
+; (assert-not (forall ((xs list)) (=> (sorted xs) (sorted (select' xs)))))
+
+; sortedness
+; (assert-not (forall ((xs list)) (sorted (selection-sort xs))))
+
+; tests
+
+; (assert-not (= (selection-sort (Cons 2 (Cons 1 Nil))) (Cons 1 (Cons 2 Nil))))
 ; (assert-not (= (select' (Cons 3 (Cons 2 (Cons 1 Nil)))) (Cons 1 (Cons 3 (Cons 2 Nil)))))
 ; (assert-not (= (filter_eq 1 (Cons 3 (Cons 2 (Cons 1 Nil)))) (filter_eq 1 (select' (Cons 3 (Cons 2 (Cons 1 Nil)))))))
-; (assert-not (forall ((x Int) (y Int) (ys list)) (= (filter_eq x (Cons y ys)) (filter_eq x (select' (Cons y ys))))))
-(assert-not (forall ((xs list)) (sorted (selection-sort xs))))
 
