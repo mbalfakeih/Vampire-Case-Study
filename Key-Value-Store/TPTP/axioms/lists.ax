@@ -42,16 +42,6 @@ tff(length_l_def_nil,axiom,
 tff(length_l_def_cons,axiom,
     ! [P: pair,L: list] : ( length_l(cons(P,L)) = $sum(1,length_l(L)) ) ).
 
-%----Append
-tff(append,type,
-    append: ( list * list ) > list ).
-
-tff(append_def_one,axiom,
-    ! [L: list] : ( append(nil,L) = L ) ).
-
-tff(append_def_two,axiom,
-    ! [P: pair,L: list,M: list] : ( append(cons(P,L),M) = cons(P,append(L,M)) ) ).
-
 %----Remove
 tff(remove_l,type,
     remove_l: ( list * $int ) > list ).
