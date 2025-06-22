@@ -66,29 +66,20 @@ tff(remove_from_list,axiom,
 
 %----Get
 tff(get_l,type,
-    get_l: ( list * $int ) > list ).
+    get_l: ( list * $int ) > pair ).
 
 tff(get_nil,axiom,
-    ! [I: $int] : ( get_l(nil,I) = nil ) ).
+    ! [I: $int] : ( get_l(nil,I) = null ) ).
 
 tff(get_from_list,axiom,
     ! [L: list,I: $int] :
       ( ( L != nil )
-     => ( get_l(L,I) = $ite(get_left(head(L)) = I,cons(head(L),nil),get_l(tail(L),I)) ) ) ).
+     => ( get_l(L,I) = $ite(get_left(head(L)) = I,head(L),get_l(tail(L),I)) ) ) ).
 
 %----Lemmas
 
-%----Vampire does not seem to be able to prove this
-%----My assumption is this is due to struggles with induction
-%----This was attempted with different induction schedules (induction and struct_induction)
-tff(get_result,lemma,
-    ! [L: list,I: $int] :
-      ( ( get_l(L,I) = nil )
-      | ? [P: pair] : ( get_l(L,I) = cons(P,nil) ) ) ).
-
-%----This also can't be proven, I'm guessing due to the complexity of the get_l function
-%----But honestly I'm not sure how to simplify it without somehow having a none value for pair
+%----Could not be proven, this would likely benefit from lists being data types by rewriting in SMT-LIB 2
 tff(get_key,lemma,
     ! [L: list,I: $int] :
-      ( ( get_l(L,I) != nil )
-     => ( get_left(head(get_l(L,I))) = I ) ) ).
+      ( ( get_l(L,I) != null )
+     => ( get_left(get_l(L,I)) = I ) ) ).

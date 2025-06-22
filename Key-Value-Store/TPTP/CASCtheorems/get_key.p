@@ -4,5 +4,5 @@ include('../axioms/key-value-store.ax').
 tff(get_key,conjecture,
     ! [A: $array($int,list),K: $int] :
       ( ( $greatereq(K,0)
-        & ( get(A,K) != nil ) )
-     => ( get_left(head(get(A,K))) = K ) ) ).
+        & ( get(A,K) != null ) )
+     => ( get_left(get(A,K)) = K ) ) ).

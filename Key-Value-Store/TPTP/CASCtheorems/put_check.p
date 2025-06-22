@@ -4,8 +4,8 @@ tff(put_check,conjecture,
     ! [A: $array($int,list),B: $array($int,list),K: $int,V: $i] :
       ( ( put(A,K,V) = B )
      => ! [X: $int] :
-          ( ( get(A,X) != nil )
+          ( ( get(A,X) != null )
          => ( ( ( X != K )
              => ( get(A,X) = get(B,X) ) )
             & ( ( X = K )
-             => ( get(B,X) = cons(pair_cons(K,V),nil) ) ) ) ) ) ).
+             => ( get(B,X) = pair_cons(K,V) ) ) ) ) ) ).

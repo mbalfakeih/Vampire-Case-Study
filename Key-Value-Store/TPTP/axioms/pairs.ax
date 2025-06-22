@@ -5,6 +5,10 @@ tff(pair,type,
 tff(pair_cons,type,
     pair_cons: ( $int * $i ) > pair ).
 
+% Type to represent empty spaces
+tff(null,type,
+    null: pair ).
+
 tff(get_left,type,
     get_left: pair > $int ).
 

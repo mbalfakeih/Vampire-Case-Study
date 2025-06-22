@@ -26,9 +26,8 @@ tff(hash_def,axiom,
 %-- Axioms are heavily inspired from "The Vampire and the FOOL" 2016
 
 %-- Key-Value Store function declarations
-%-- This will either return a nil, or cons(pair_cons(K,V),nil)
 tff(get,type,
-    get: ( $array($int,list) * $int ) > list ).
+    get: ( $array($int,list) * $int ) > pair ).
 
 %-- Removal at a specified index
 tff(remove,type,
@@ -74,12 +73,12 @@ tff(remove_def,axiom,
 tff(put_def,axiom,
     ! [A: $array($int,list),K: $int,V: $i] :
       ( $greatereq(K,0)
-     => ( put(A,K,V) = $store(A,h(K),append(cons(pair_cons(K,V),nil),get_chain(remove(A,K),K))) ) ) ).
+     => ( put(A,K,V) = $store(A,h(K),cons(pair_cons(K,V),get_chain(remove(A,K),K))) ) ) ).
 
 tff(contains_def,axiom,
     ! [A: $array($int,list),V: $i] :
       ( contains(A,V)
-    <=> ? [K: $int] : ( get(A,K) = cons(pair_cons(K,V),nil) ) ) ).
+    <=> ? [K: $int] : ( get(A,K) = pair_cons(K,V) ) ) ).
 
 tff(size_up_to_index_zero,axiom,
     ! [A: $array($int,list)] : ( size_up_to_index(A,0) = length_l(get_chain(A,0)) ) ).
@@ -95,7 +94,7 @@ tff(size_def,axiom,
 
 %-- Axioms
 tff(read_over_write_one,axiom,
-    ! [A: $array($int,list),K: $int,V: $i] : ( get(put(A,K,V),K) = cons(pair_cons(K,V),nil) ) ).
+    ! [A: $array($int,list),K: $int,V: $i] : ( get(put(A,K,V),K) = pair_cons(K,V) ) ).
 
 tff(read_over_write_two,axiom,
     ! [A: $array($int,list),K: $int,L: $int,V: $i] :
