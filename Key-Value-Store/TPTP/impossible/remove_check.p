@@ -4,8 +4,8 @@ tff(remove_check,conjecture,
     ! [A: $array($int,list),B: $array($int,list),K: $int,V: $i] :
       ( ( remove(A,K) = B )
      => ! [X: $int] :
-          ( ( get(A,X) != nil )
+          ( ( get(A,X) != null )
          => ( ( ( X != K )
              => ( get(A,X) = get(B,X) ) )
             & ( ( X = K )
-             => ( get(B,X) = nil ) ) ) ) ) ).
+             => ( get(B,X) = null ) ) ) ) ) ).
