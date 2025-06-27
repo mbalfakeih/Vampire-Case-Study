@@ -1,5 +1,5 @@
 # Vampire-Case-Study
-Code for CSE3000 Research Project at TU Delft.
+Code for CSE3000 Research Project at TU Delft. See associated paper [here](https://resolver.tudelft.nl/uuid:63194717-b1c2-4ddb-992c-602183b68e1c)
 
 This is a case study researching the capabilities and limitations of Vampire in performing automated software verification. Selection Sort and a Key-Value Store are defined in TPTP and SMT-LIB 2.7, then conjectures are defined to see whether Vampire is able to prove them.
 
